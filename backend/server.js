@@ -1,4 +1,3 @@
-
 const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
@@ -12,31 +11,25 @@ const app = express();
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: [
+      "http://localhost:5173",
+      process.env.FRONTEND_URL,
+    ].filter(Boolean),
   })
 );
 
-// Middleware must run before routes
 app.use(express.json());
 
-// Register routes only once
 app.use("/api", contactRoutes);
 app.use("/api", aiRoutes);
 
-app.use((req, res, next) => {
-  console.log("REQUEST:", req.method, req.originalUrl);
-  next();
-});
-
 app.get("/", (req, res) => {
   res.json({
-    message: "Rare Pharma Backend Running",
+    message: "Rare Pharma Backend Running here",
   });
 });
 
-const PORT = 5001;
-
-// const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

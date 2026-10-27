@@ -6,6 +6,7 @@ function Chatbot() {
   const [isOpen, setIsOpen] = useState(false);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const API_URL = import.meta.env.VITE_API_BASE_URL;
   const [messages, setMessages] = useState([
     {
       role: "assistant",
@@ -27,13 +28,13 @@ function Chatbot() {
     setLoading(true);
 
     try {
-      const response = await fetch("https://rarepharmaproject.onrender.com/api/chat", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ message: text }),
-      });
+      const response = await fetch(`${API_URL}/api/chat`, {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({ message: text }),
+});
 
       const data = await response.json();
 
