@@ -1,4 +1,3 @@
-
 const express = require("express");
 const nodemailer = require("nodemailer");
 
@@ -13,7 +12,13 @@ const transporter = nodemailer.createTransport({
 });
 
 router.post("/contact", async (req, res) => {
-  const { name, email, phone, medicine, message } = req.body || {};
+  const {
+    name,
+    email,
+    phone,
+    medicine,
+    message,
+  } = req.body;
 
   if (!name || !email || !phone || !medicine || !message) {
     return res.status(400).json({
@@ -28,7 +33,8 @@ router.post("/contact", async (req, res) => {
       to: process.env.EMAIL_USER,
       replyTo: email,
       subject: `New Medicine Enquiry - ${medicine}`,
-      text: `New Medicine Enquiry
+      text: `
+New Medicine Enquiry
 
 Name: ${name}
 Email: ${email}
@@ -36,7 +42,8 @@ Phone: ${phone}
 Medicine: ${medicine}
 
 Message:
-${message}`,
+${message}
+      `,
     });
 
     console.log("Email sent successfully.");
@@ -46,11 +53,11 @@ ${message}`,
       message: "Enquiry sent successfully.",
     });
   } catch (error) {
-    console.error("Email sending failed:", error.message);
+    console.error("Email sending failed:", error);
 
     return res.status(500).json({
       success: false,
-      message: "Unable to send enquiry. Please try again later.",
+      message: "Unable to send enquiry.",
     });
   }
 });
