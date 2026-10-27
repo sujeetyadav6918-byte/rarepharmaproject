@@ -5,7 +5,7 @@ const medicines = [
     genericName: "Aripiprazole",
     category: "Neurology",
     slug: "abilify-maintena-aripiprazole",
-    image: "/medicines/Neurology/"
+    image: "/medicines/Neurology/Abilify Maintena.jpg"
   },
 
   {
