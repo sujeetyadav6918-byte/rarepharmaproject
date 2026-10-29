@@ -42,7 +42,7 @@ function Contact() {
     try {
     
 const response = await fetch(
-  "https://rarepharmaprojectbackend.onrender.com/api/contact",
+  "https://rarepharmaprojectbackend.onrender.com/api/contact"
   {
     method: "POST",
     headers: {
