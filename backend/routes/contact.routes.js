@@ -12,18 +12,26 @@ const transporter = nodemailer.createTransport({
 });
 
 router.post("/contact", async (req, res) => {
-  const {
-    name,
-    email,
-    phone,
-    medicine,
-    message,
-  } = req.body;
+  const { name, email, phone, medicine, message } = req.body || {};
+  const fields = {
+    name: typeof name === "string" ? name.trim() : "",
+    email: typeof email === "string" ? email.trim() : "",
+    phone: typeof phone === "string" ? phone.trim() : "",
+    medicine: typeof medicine === "string" ? medicine.trim() : "",
+    message: typeof message === "string" ? message.trim() : "",
+  };
 
-  if (!name || !email || !phone || !medicine || !message) {
+  if (Object.values(fields).some((value) => !value)) {
     return res.status(400).json({
       success: false,
       message: "All fields are required.",
+    });
+  }
+
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields.email)) {
+    return res.status(400).json({
+      success: false,
+      message: "Please enter a valid email address.",
     });
   }
 
@@ -31,18 +39,18 @@ router.post("/contact", async (req, res) => {
     await transporter.sendMail({
       from: process.env.EMAIL_USER,
       to: process.env.EMAIL_USER,
-      replyTo: email,
-      subject: `New Medicine Enquiry - ${medicine}`,
+      replyTo: fields.email,
+      subject: `New Medicine Enquiry - ${fields.medicine}`,
       text: `
 New Medicine Enquiry
 
-Name: ${name}
-Email: ${email}
-Phone: ${phone}
-Medicine: ${medicine}
+Name: ${fields.name}
+Email: ${fields.email}
+Phone: ${fields.phone}
+Medicine: ${fields.medicine}
 
 Message:
-${message}
+${fields.message}
       `,
     });
 

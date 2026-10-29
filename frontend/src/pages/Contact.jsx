@@ -40,31 +40,28 @@ function Contact() {
     });
 
     try {
-    
-const response = await fetch(
-  "https://rarepharmaprojectbackend.onrender.com/api/contact"
-  {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(formData),
-  }
-);
+      const apiUrl = (
+        import.meta.env.VITE_API_URL || "http://localhost:5001"
+      ).replace(/\/+$/, "");
+      const response = await fetch(`${apiUrl}/api/contact`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
 
-
-      const data = await response.json();
+      const data = await response.json().catch(() => ({}));
 
       if (!response.ok) {
         throw new Error(
-          data.message || "Unable to send enquiry."
+          data.message || "Unable to send enquiry. Please try again."
         );
       }
 
       setStatus({
         type: "success",
-        message:
-          data.message || "Enquiry sent successfully.",
+        message: data.message || "Enquiry sent successfully.",
       });
 
       setFormData({
