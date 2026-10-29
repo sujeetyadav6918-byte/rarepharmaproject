@@ -40,13 +40,18 @@ function Contact() {
     });
 
     try {
-      const response = await fetch("https://rarepharmaprojectbackend.onrender.com/api/contact", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+    
+const response = await fetch(
+  "https://rarepharmaprojectbackend.onrender.com/api/contact",
+  {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(formData),
+  }
+);
+
 
       const data = await response.json();
 
