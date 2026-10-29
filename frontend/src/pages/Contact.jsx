@@ -40,10 +40,7 @@ function Contact() {
     });
 
     try {
-      const apiUrl = (
-        import.meta.env.VITE_API_URL || "http://localhost:5001"
-      ).replace(/\/+$/, "");
-      const response = await fetch(`${apiUrl}/api/contact`, {
+      const response = await fetch("http://localhost:5001/api/contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -51,17 +48,18 @@ function Contact() {
         body: JSON.stringify(formData),
       });
 
-      const data = await response.json().catch(() => ({}));
+      const data = await response.json();
 
       if (!response.ok) {
         throw new Error(
-          data.message || "Unable to send enquiry. Please try again."
+          data.message || "Unable to send enquiry."
         );
       }
 
       setStatus({
         type: "success",
-        message: data.message || "Enquiry sent successfully.",
+        message:
+          data.message || "Enquiry sent successfully.",
       });
 
       setFormData({
