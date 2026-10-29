@@ -40,7 +40,7 @@ function Contact() {
     });
 
     try {
-      const response = await fetch("https://rarepharmaproject.onrender.com/api/contact", {
+      const response = await fetch("http://localhost:5001/api/contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -112,7 +112,6 @@ function Contact() {
             <br />
             requirement?
           </h2>
-
           <p>
             Share your requirement with us. Our team can
             assist with availability, documentation and
